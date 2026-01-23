@@ -1,9 +1,7 @@
 import { useState } from 'react'
 import { Box, Button, ModalClose, LinearProgress, Modal, Sheet, Slider, Typography, Stack, Divider } from '@mui/joy'
-import { IconX } from '@tabler/icons-react'
 
 function App() {
-  const [modalOpen, setModalOpen] = useState(true)
   const [btcXauLots, setBtcXauLots] = useState(0)
   const [fxLots, setFxLots] = useState(0)
 
@@ -17,14 +15,10 @@ function App() {
     return 'neutral'
   }
 
-  const handleClose = () => {
-    setModalOpen(false)
-  }
-
   return (
     <Box sx={{ bgcolor: 'background.level1', minHeight: '100vh', p: 2 }}>
       <Modal
-        open={modalOpen}
+        open={true}
         onClose={() => { }}
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       >
