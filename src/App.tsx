@@ -1,73 +1,142 @@
 import { useState } from 'react'
-import Box from '@mui/joy/Box'
-import Button from '@mui/joy/Button'
-import Card from '@mui/joy/Card'
-import CardContent from '@mui/joy/CardContent'
-import Typography from '@mui/joy/Typography'
-import Stack from '@mui/joy/Stack'
-import { IconBrandReact, IconBrandVite, IconPlus, IconMinus } from '@tabler/icons-react'
+import { Box, Button, ModalClose, LinearProgress, Modal, Sheet, Slider, Typography, Stack, Divider } from '@mui/joy'
+import { IconX } from '@tabler/icons-react'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [modalOpen, setModalOpen] = useState(true)
+  const [btcXauLots, setBtcXauLots] = useState(0)
+  const [fxLots, setFxLots] = useState(0)
+
+  // Calculate percentage: (btcXauLots/2 + fxLots/3) * 100
+  const percentage = ((btcXauLots / 2 + fxLots / 3) * 100)
+
+  // Determine progress color
+  const getProgressColor = () => {
+    if (percentage === 0) return 'neutral'
+    if (percentage >= 100) return 'success'
+    return 'neutral'
+  }
+
+  const handleClose = () => {
+    setModalOpen(false)
+  }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '100vh',
-        gap: 3,
-        p: 2,
-      }}
-    >
-      <Stack direction="row" spacing={2}>
-        <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
-          <IconBrandVite size={48} stroke={1.5} />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
-          <IconBrandReact size={48} stroke={1.5} />
-        </a>
-      </Stack>
+    <Box sx={{ bgcolor: 'background.level1', minHeight: '100vh', p: 2 }}>
+      <Modal
+        open={modalOpen}
+        onClose={() => { }}
+        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      >
+        <Sheet
+          variant="outlined"
+          sx={{
+            width: 500,
+            borderRadius: 'md',
+            p: 3,
+            boxShadow: 'lg',
+            position: 'relative',
+          }}
+        >
+          {/* Close button */}
+          <ModalClose variant="plain" sx={{ m: 1 }} />
 
-      <Typography level="h1">Vite + React + Joy UI</Typography>
+          {/* Header */}
+          <Typography level="h4" component="h2" sx={{ mb: 1 }}>
+            Trading Volume Goal
+          </Typography>
 
-      <Card variant="outlined" sx={{ minWidth: 300 }}>
-        <CardContent>
-          <Stack spacing={2} alignItems="center">
-            <Typography level="title-lg">Counter Demo</Typography>
-            <Typography level="h2">{count}</Typography>
-            <Stack direction="row" spacing={1}>
-              <Button
-                startDecorator={<IconMinus />}
-                onClick={() => setCount((count) => count - 1)}
-                color="primary"
-                variant="soft"
-                size="md"
-              >
-                Decrease
-              </Button>
-              <Button
-                startDecorator={<IconPlus />}
-                onClick={() => setCount((count) => count + 1)}
-                color="success"
-                variant="soft"
-                size="md"
-              >
-                Increase
-              </Button>
-            </Stack>
-            <Typography level="body-sm" sx={{ mt: 2 }}>
-              Edit <code>src/App.tsx</code> and save to test HMR
+          {/* Body text */}
+          <Stack direction="column" spacing={1} sx={{ mb: 2 }}>
+            <Typography level="body-sm">
+              2 lots total on BTCUSD / XAUUSD,<br />
+              or 3 lots total on USDJPY / EURUSD / GBPUSD.
+            </Typography>
+
+            <Typography level="body-sm">
+              You can combine instruments from both groups.<br />
+              (BTC/XAU lots ÷ 2) + (FX lots ÷ 3) ≥ 1.00 (100%).
             </Typography>
           </Stack>
-        </CardContent>
-      </Card>
 
-      <Typography level="body-sm" textColor="text.secondary">
-        Built with Joy UI and Tabler Icons
-      </Typography>
+          <Divider sx={{ my: 2 }} />
+
+          {/* Sliders Section */}
+          <Stack direction="column" spacing={1}>
+
+            <Typography level="title-sm">
+              Trading calculator, lots
+            </Typography>
+
+            {/* Sliders */}
+            <Stack direction='row' gap={3}>
+
+              {/* Left slider - BTCUSD / XAUUSD */}
+              <Stack flex={1}>
+                <Typography level="body-xs">
+                  BTCUSD / XAUUSD
+                </Typography>
+                <Slider
+                  variant="solid"
+                  color='neutral'
+                  value={btcXauLots}
+                  onChange={(_, value) => setBtcXauLots(value as number)}
+                  min={0}
+                  max={2}
+                  step={0.1}
+                  marks={[
+                    { value: 0, label: '0' },
+                    { value: 2, label: '2+' },
+                  ]}
+                  valueLabelDisplay="auto"
+                />
+              </Stack>
+
+              {/* Right slider - USDJPY / EURUSD / GBPUSD */}
+              <Stack flex={1} mb={3}>
+                <Typography level="body-xs">
+                  USDJPY / EURUSD / GBPUSD
+                </Typography>
+                <Slider
+                  variant="solid"
+                  color='neutral'
+                  value={fxLots}
+                  onChange={(_, value) => setFxLots(value as number)}
+                  min={0}
+                  max={3}
+                  step={0.1}
+                  marks={[
+                    { value: 0, label: '0' },
+                    { value: 3, label: '3+' },
+                  ]}
+                  valueLabelDisplay="auto"
+                />
+              </Stack>
+            </Stack>
+
+            {/* Progress bar */}
+            <Stack spacing={1}>
+              <LinearProgress
+                determinate
+                size='lg'
+                value={Math.min(percentage, 100)}
+                color={getProgressColor()}
+              />
+              <Typography level="body-md" textAlign="center">
+                {percentage >= 100 ? 'Success!' : `${Math.round(percentage)}%`}
+              </Typography>
+            </Stack>
+
+          </Stack>
+
+          {/* Action button */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button variant="solid" color="primary" size='lg'>
+              Got it
+            </Button>
+          </Box>
+        </Sheet>
+      </Modal>
     </Box>
   )
 }
