@@ -30,6 +30,7 @@ function App() {
             p: 3,
             boxShadow: 'lg',
             position: 'relative',
+            m: 2,
           }}
         >
           {/* Close button */}
@@ -56,17 +57,17 @@ function App() {
           <Divider sx={{ my: 2 }} />
 
           {/* Sliders Section */}
-          <Stack direction="column" spacing={1}>
+          <Stack direction="column" gap={3}>
 
             <Typography level="title-sm">
               Trading calculator, lots
             </Typography>
 
             {/* Sliders */}
-            <Stack direction='row' gap={3}>
+            <Stack sx={{ flexDirection: { xs: 'column', sm: 'row' } }} gap={3}>
 
               {/* Left slider - BTCUSD / XAUUSD */}
-              <Stack flex={1}>
+              <Stack flex={1} gap={2}>
                 <Typography level="body-xs">
                   BTCUSD / XAUUSD
                 </Typography>
@@ -82,12 +83,12 @@ function App() {
                     { value: 0, label: '0' },
                     { value: 2, label: '2+' },
                   ]}
-                  valueLabelDisplay="auto"
+                  valueLabelDisplay="on"
                 />
               </Stack>
 
               {/* Right slider - USDJPY / EURUSD / GBPUSD */}
-              <Stack flex={1} mb={3}>
+              <Stack flex={1} gap={2}>
                 <Typography level="body-xs">
                   USDJPY / EURUSD / GBPUSD
                 </Typography>
@@ -103,7 +104,7 @@ function App() {
                     { value: 0, label: '0' },
                     { value: 3, label: '3+' },
                   ]}
-                  valueLabelDisplay="auto"
+                  valueLabelDisplay="on"
                 />
               </Stack>
             </Stack>
