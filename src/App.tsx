@@ -126,8 +126,30 @@ function App() {
 
             {/* Action button */}
             <Stack justifyContent="flex-end" mt={3} gap={2}>
-              <Button variant="solid" color="primary" size='lg'>
-                Got it
+              {/* Mobile button */}
+              <Button 
+                variant="solid" 
+                color="primary" 
+                size='lg'
+                component="a"
+                href="https://www.figma.com/proto/ufakCTZAcAym1i6U8zTgzS/DESIGN-5766?node-id=5615-22606&p=f&viewport=-562%2C212%2C0.25&t=rgDQ4ANRG22x2VT7-8&scaling=contain&content-scaling=responsive&starting-point-node-id=5615%3A22606&show-proto-sidebar=1&hide-ui=1"
+                target="_blank"
+                sx={{ display: { xs: 'flex', sm: 'none' } }}
+              >
+                Go back to prototype
+              </Button>
+              
+              {/* Desktop button */}
+              <Button 
+                variant="solid" 
+                color="primary" 
+                size='lg'
+                component="a"
+                href="https://www.figma.com/proto/ufakCTZAcAym1i6U8zTgzS/DESIGN-5766?node-id=5043-21302&p=f&viewport=-562%2C212%2C0.25&t=vxYRbVgbpuXwqQCP-8&scaling=scale-down&content-scaling=fixed&starting-point-node-id=5043%3A21302&show-proto-sidebar=1&hide-ui=1"
+                target="_blank"
+                sx={{ display: { xs: 'none', sm: 'flex' } }}
+              >
+                Go back to prototype
               </Button>
               <Typography 
                 level="body-xs"
